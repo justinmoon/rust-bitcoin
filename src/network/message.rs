@@ -19,10 +19,16 @@
 //! also defines (de)serialization routines for many primitives.
 //!
 
-use std::{fmt, io, iter, mem, str};
-use std::borrow::Cow;
-use std::io::Cursor;
+// <<<<<<< HEAD
+// use std::{fmt, io, iter, mem, str};
+// use std::borrow::Cow;
+// use std::io::Cursor;
+// =======
+use alloc::{string::String, borrow::Cow, vec::Vec};
+use core::{mem, fmt, iter};
+use io::Cursor;
 
+use io;
 use blockdata::block;
 use blockdata::transaction;
 use network::address::{Address, AddrV2Message};
@@ -338,8 +344,13 @@ impl Decodable for RawNetworkMessage {
         let cmd = CommandString::consensus_decode(&mut d)?;
         let raw_payload = CheckedData::consensus_decode(&mut d)?.0;
 
+<<<<<<< HEAD
         let mut mem_d = Cursor::new(raw_payload);
         let payload = match &cmd.0[..] {
+=======
+        let mut mem_d = io::Cursor::new(raw_payload);
+        let payload = match &cmd[..] {
+>>>>>>> no_std support
             "version" => NetworkMessage::Version(Decodable::consensus_decode(&mut mem_d)?),
             "verack"  => NetworkMessage::Verack,
             "addr"    => NetworkMessage::Addr(Decodable::consensus_decode(&mut mem_d)?),
@@ -384,6 +395,11 @@ impl Decodable for RawNetworkMessage {
 
 #[cfg(test)]
 mod test {
+<<<<<<< HEAD
+=======
+    use alloc::vec::Vec;
+    use io;
+>>>>>>> no_std support
     use std::net::Ipv4Addr;
     use super::{RawNetworkMessage, NetworkMessage, CommandString};
     use network::constants::ServiceFlags;

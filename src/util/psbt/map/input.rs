@@ -12,8 +12,9 @@
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 
-use std::io;
-use std::collections::btree_map::{BTreeMap, Entry};
+use io;
+use alloc::vec::Vec;
+use alloc::collections::btree_map::{Entry, BTreeMap};
 
 use blockdata::script::Script;
 use blockdata::transaction::{SigHashType, Transaction, TxOut};
@@ -181,10 +182,17 @@ impl Map for Input {
                 ::std::collections::btree_map::Entry::Occupied(_) => return Err(Error::DuplicateKey(raw_key).into()),
             }
             _ => match self.unknown.entry(raw_key) {
+<<<<<<< HEAD
                 Entry::Vacant(empty_key) => {
                     empty_key.insert(raw_value);
                 }
                 Entry::Occupied(k) => {
+=======
+                ::alloc::collections::btree_map::Entry::Vacant(empty_key) => {
+                    empty_key.insert(raw_value);
+                }
+                ::alloc::collections::btree_map::Entry::Occupied(k) => {
+>>>>>>> no_std support
                     return Err(Error::DuplicateKey(k.key().clone()).into())
                 }
             },

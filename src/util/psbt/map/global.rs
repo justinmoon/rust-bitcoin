@@ -12,10 +12,17 @@
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 
-use std::collections::BTreeMap;
-use std::collections::btree_map::Entry;
-use std::io::{self, Cursor, Read};
-use std::cmp;
+// <<<<<<< HEAD
+// use std::collections::BTreeMap;
+// use std::collections::btree_map::Entry;
+// use std::io::{self, Cursor, Read};
+// use std::cmp;
+// =======
+use alloc::vec::Vec;
+use alloc::collections::BTreeMap;
+use alloc::collections::btree_map::Entry;
+use io::{self, Cursor, Read};
+use core::cmp
 
 use blockdata::transaction::Transaction;
 use consensus::{encode, Encodable, Decodable};

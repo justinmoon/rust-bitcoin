@@ -12,7 +12,8 @@
 // If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 //
 
-use std::io;
+use io;
+use alloc::vec::Vec;
 
 use consensus::encode;
 use util::psbt;

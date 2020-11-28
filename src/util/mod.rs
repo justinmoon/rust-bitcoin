@@ -33,7 +33,7 @@ pub mod bip158;
 
 pub(crate) mod endian;
 
-use std::{error, fmt};
+use core::fmt;
 
 use network;
 use consensus::encode;
@@ -84,8 +84,9 @@ impl fmt::Display for Error {
     }
 }
 
-impl error::Error for Error {
-    fn cause(&self) -> Option<&dyn error::Error> {
+#[cfg(feature = "std")]
+impl std::error::Error for Error {
+    fn cause(&self) -> Option<&dyn std::error::Error> {
         match *self {
             Error::Encode(ref e) => Some(e),
             Error::Network(ref e) => Some(e),

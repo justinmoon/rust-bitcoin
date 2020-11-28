@@ -16,6 +16,8 @@
 //!
 //! Various utility functions
 
+use alloc::vec::Vec;
+
 use hashes::{sha256d, Hash, HashEngine};
 
 use blockdata::opcodes;
@@ -29,7 +31,7 @@ pub const BITCOIN_SIGNED_MSG_PREFIX: &[u8] = b"\x18Bitcoin Signed Message:\n";
 
 #[cfg(feature = "secp-recovery")]
 mod message_signing {
-    use std::{error, fmt};
+    use core::fmt;
 
     use hashes::sha256d;
     use secp256k1;
@@ -59,8 +61,9 @@ mod message_signing {
         }
     }
 
-    impl error::Error for MessageSignatureError {
-        fn cause(&self) -> Option<&dyn error::Error> {
+    #[cfg(feature = "std")]
+    impl std::error::Error for MessageSignatureError {
+        fn cause(&self) -> Option<&dyn std::error::Error> {
             match *self {
                 MessageSignatureError::InvalidEncoding(ref e) => Some(e),
                 _ => None,
@@ -188,7 +191,7 @@ mod message_signing {
     }
 
     #[cfg(feature = "base64")]
-    impl ::std::str::FromStr for MessageSignature {
+    impl ::core::str::FromStr for MessageSignature {
         type Err = MessageSignatureError;
         fn from_str(s: &str) -> Result<MessageSignature, MessageSignatureError> {
             MessageSignature::from_base64(s)
@@ -243,6 +246,7 @@ pub fn signed_msg_hash(msg: &str) -> sha256d::Hash {
 
 #[cfg(test)]
 mod tests {
+    use alloc::vec::Vec;
     use hashes::hex::ToHex;
     use super::script_find_and_remove;
     use super::signed_msg_hash;
@@ -295,7 +299,7 @@ mod tests {
     #[test]
     #[cfg(all(feature = "secp-recovery", feature = "base64"))]
     fn test_message_signature() {
-        use std::str::FromStr;
+        use core::str::FromStr;
         use secp256k1;
 
         let secp = secp256k1::Secp256k1::new();
