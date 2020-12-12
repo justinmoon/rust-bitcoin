@@ -38,8 +38,8 @@ secp256k1 = { git = "https://github.com/justinmoon/rust-secp256k1.git", branch =
 
 base64-compat = { version = "1.0.0", optional = true }
 bitcoinconsensus = { version = "0.19.0-1", optional = true }
-serde = { version = "1", features = [ "derive" ], optional = true }
-bare-io = { version = "0.2", optional = true }
+serde = { version = "1", optional = true }
+bare-io = { git = "https://github.com/justinmoon/bare-io.git", branch = "ancient", features = ["alloc", "ancient"], optional = true }
 
 [dev-dependencies]
 serde_json = "<1.0.45"
